@@ -1,0 +1,338 @@
+---
+title: "Learnr Exercises"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(nycflights13)
+```
+
+
+## Easy
+
+### Exercise 1
+
+Write the R code for putting mpg dataset into a mpg dataframe
+
+```{r D1, exercise=TRUE, exercise.eval=TRUE}
+mpg<- data.frame(mpg)
+```
+
+### Exercise 2  
+
+Write the R code for Viewing the mpg dataframe
+```{r D2, exercise=TRUE, exercise.eval=TRUE}
+View(mpg)
+```
+
+### Exercise 3
+
+```{r D3}
+quiz(
+  question("Which of the following are considered variables in facet_wrap ?",
+    answer("rows"),
+    answer("cols"),
+    answer("nrow", correct= TRUE),
+    answer("ncol", correct= TRUE)
+  )
+)
+```
+
+### Exercise 4  
+
+```{r D4}
+quiz(
+  question("Which of the following are considered variables in facet_grid ?",
+    answer("rows", correct= TRUE),
+    answer("cols", correct= TRUE),
+    answer("nrow"),
+    answer("ncol")
+  )
+)
+```
+
+### Exercise 5  
+
+Refer to flights dataset.
+Find all flights that arrived on Christmas Eve (24th December)
+
+```{r D5, exercise=TRUE}
+filter(flights, month == 12 & day == 24)
+```
+### Exercise 6
+
+```{r D6}
+quiz(
+  question("Which of the following are considered arguments in arrange() ?",
+    answer("data"),
+    answer(".data", correct= TRUE),
+    answer("by_group"),
+    answer(".by_group", correct= TRUE)
+  )
+)
+```
+
+### Exercise 7  
+
+```{r D7}
+quiz(
+  question("Using arrange() function, where are NA values located ?",
+    answer("top of the data"),
+    answer("randomized"),
+    answer("end of the data", correct= TRUE)
+  )
+)
+```
+
+### Exercise 8  
+
+Refer to flights dataset.
+Rename air_time column to airtime 
+
+```{r D8, exercise=TRUE, exercise.eval=TRUE}
+rename(flights, airtime=air_time)
+```
+
+### Exercise 9
+
+```{r D9}
+quiz(
+  question("Which of the following arguments control where new columns should appear in mutate() ?",
+    answer(".data"),
+    answer(".keep"),
+    answer(".before"),
+    answer(".after", correct= TRUE)
+  )
+)
+```
+
+### Exercise 10  
+
+```{r D10}
+quiz(
+  question("Using mutate(), What will happen to NULL values in output column ?",
+    answer("removed", correct= TRUE),
+    answer("retained"),
+    answer("changed to NA"),
+    answer("changed to logical(0)")
+  )
+)
+```
+
+### Exercise 11  
+Refer to flights dataset.
+Find the mean air time for each month
+
+```{r D11, exercise = TRUE}
+flights %>% 
+  group_by(year, month) %>%
+  summarise(mean_air_time = mean(air_time, na.rm = TRUE))
+```
+
+##  Intermediate Level
+
+### Exercise 12
+
+Modify the following code to map the shapes of points to drv variable 
+```{r D12, exercise=TRUE, exercise.eval=TRUE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, shape= drv))
+```
+
+### Exercise 13
+
+```{r D13}
+quiz(
+  question("Which of the following are considered asethetics in geom_point ?",
+    answer("fill", correct = TRUE),
+    answer("shape", correct = TRUE),
+    answer("size", correct= TRUE),
+    answer("length")
+  )
+)
+```
+
+### Exercise 14
+
+Recreate the R code necessary to generate the following graphs
+<img src="images/mpgHwyCty.png" alt="drawing" style="width:400px;"/>
+```{r D14, exercise=TRUE, include=FALSE}
+ggplot(data=mpg, mapping = aes(x=, y=)) +
+  geom_point() +
+  geom_line() +
+```
+
+### Exercise 15
+
+When we run the following code, we get this error message: "Continuous value supplied to discrete scale"  Which variable should be changed to resolve this issue?
+```{r D15, exercise=TRUE, exercise.lines=5}
+ggplot() +
+  geom_point(data=mpg, mapping= aes(x=displ, y= hwy, color= drv)) +
+  geom_line(data=mpg, mapping = aes(x=displ, y= hwy, color= cyl))
+
+```
+
+
+### Exercise 16  
+
+Refer to flights dataset.
+Find all flights with missing dep_delay, and arr_delay  
+
+```{r D16, exercise=TRUE}
+filter(flights, is.na(dep_delay)&is.na(arr_delay))
+```
+
+### Exercise 17  
+
+Refer to flights dataset.
+Arrange flights based on descending dep_delay  
+
+```{r D17, exercise=TRUE}
+arrange(flights, desc(dep_delay))
+```
+
+### Exercise 18  
+
+Refer to flights dataset.
+Arrange flights based on ascending distance
+
+```{r D18, exercise=TRUE}
+arrange(flights, distance)
+```
+
+
+### Exercise 19  
+
+Refer to flights dataset.
+Select all columns except year, month, day column  
+
+```{r D19, exercise=TRUE}
+select(flights, !c(year, month, day))
+```
+
+### Exercise 20  
+
+Refer to flights dataset.
+Add a new column called air_time_hours by converting air_time from minutes to hours
+
+```{r D20, exercise=TRUE}
+mutate(flights, air_time_hours = air_time/60)
+```
+
+### Exercise 21  
+
+Refer to flights dataset.
+Add a new column called distance_km by converting distance from miles to km (1 mile = 1.61 km)  
+
+```{r D21, exercise=TRUE}
+mutate(flights, distance_km = distance * 1.61)
+```
+
+
+### Exercise 22  
+
+Refer to flights dataset.
+Find the median air time for each day of the year
+
+```{r D22, exercise=TRUE}
+flights %>% 
+  group_by(year, month, day) %>%
+  summarise(median_air_time = median(air_time, na.rm = TRUE))
+```
+
+
+## Advanced  
+
+### Exercise 23
+
+Divide mpg dataframe into 2 half and plot 2 separate geom_point graphs respectively with displ on x-axis and hwy on y-axis  
+**HINT**:"spliting the mpg dataframe requires floor(), set.seed(), sample(), seq_len()"
+
+```{r D23, exercise=TRUE, exercise.eval=TRUE}
+half_size <- floor(0.5*nrow(mpg))
+set.seed(123123)
+mpg_half <- sample(seq_len(nrow(mpg)),size= half_size)
+
+mpg_1 <- mpg[mpg_half, ]
+mpg_2 <- mpg[-mpg_half, ]
+
+ggplot(data= mpg_1) +
+  geom_point(mapping = aes(x= displ, y = hwy))
+ggplot(data=mpg_2) +
+  geom_point(mapping = aes(x= displ, y = hwy))
+```
+
+### Exercise 24
+
+Write the R code for geom_point, and geom_smooth, with color=class, excluding all 2seater cars
+```{r D24, exercise=TRUE, exercise.eval=TRUE}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+   geom_point(data = filter(mpg, class != "2seater"), mapping = aes(color = class)) + 
+   geom_smooth(data = filter(mpg, class != "2seater"), se= FALSE)
+```
+
+### Exercise 25  
+
+Refer to flights dataset.
+Find all flights that belong to Mesa Airlines, Hawaiian Airlines, and Alaska Airlines
+
+```{r D25 hint}
+# type airplanes in the console
+```
+
+```{r D25, exercise=TRUE, exercise.eval=TRUE}
+filter(flights, carrier == c("YV","HA","AS"))
+```
+
+### Exercise 26  
+Refer to flights dataset.
+Select all columns not containing the word "time"
+
+```{r D26, exercise=TRUE}
+select(flights, !contains("time"))
+```
+
+### Exercise 27
+
+Make a new column in flights dataset called speed where speed = distance/air_time. Arrange flights based on descending speed
+```{r D27, exercise=TRUE}
+flights$speed = flights$distance/flights$air_time
+arrange(flights, desc(speed))
+```
+
+### Exercise 28   
+
+Refer to flights dataset.
+Rank the 10 fastest flights and 10 slowest flights  
+
+```{r D28 hint}
+# use top_n()
+```
+
+
+```{r D28, exercise=TRUE}
+flights <- mutate(flights, speed=distance/air_time)
+arrange(flights, desc(speed)) %>% top_n(10)
+arrange(flights, speed) %>% top_n(10)
+```
+
+### Exercise 29  
+
+Refer to flights dataset.
+Find the first departure and last arrival for each day of the year, and plot the following graph  
+
+
+```{r D29, echo=FALSE, message=FALSE, warning=FALSE, exercise=FALSE}
+flights %>%
+  filter(!is.na(dep_time)&!is.na(arr_time)) %>%
+  group_by(year, month, day) %>%
+  summarise(first_dep = first(dep_time),
+            last_arr = last(arr_time)) %>%
+  ggplot(aes(first_dep,last_arr)) +
+  geom_smooth()
+```
+
