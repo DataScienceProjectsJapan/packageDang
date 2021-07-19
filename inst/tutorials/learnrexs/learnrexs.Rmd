@@ -161,9 +161,9 @@ quiz(
 Recreate the R code necessary to generate the following graphs
 <img src="images/mpgHwyCty.png" alt="drawing" style="width:400px;"/>
 ```{r D14, exercise=TRUE, include=FALSE}
-ggplot(data=mpg, mapping = aes(x=, y=)) +
+ggplot(data=mpg, mapping = aes(x= displ, y= hwy)) +
   geom_point() +
-  geom_line() +
+  geom_line()
 ```
 
 ### Exercise 15
