@@ -200,8 +200,8 @@ Refer to mpg data set.
 
 Plot a geom_point graph with displ on x-axis, hwy on y-axis, and map the shape of points to drv
 ```{r D12, exercise=TRUE}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, shape= drv))
+ggplot(    ) + 
+  geom_point(    )
 ```
 
 ```{r D12-hint}
